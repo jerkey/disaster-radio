@@ -67,7 +67,7 @@ module.exports = function(Component) {
         return <RouteMessage rts={o} />
       }, this)
 
-		  return <div>
+		  return <div id="chatWrapper">
         <form id="chatForm" action="/chat" method="POST" onsubmit={this.send}>
           <div id="chat">
             {messages}

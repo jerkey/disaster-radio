@@ -3,11 +3,24 @@
 
 $white: rgba(220,220,220,1);
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
 body {
-    font-family: sans-serif;
-    margin: 20px;
-    background: rgba(0,0,0,1);
-    color: $white;
+  height: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: rgba(0,0,0,1);
+  color: $white;
+  display: flex;
+  flex-direction: column;
 }
 
 .noselect {
@@ -20,64 +33,90 @@ body {
 }
 
 h1 {
-    text-align: center;
-    margin: 5px 0 10px 0;
-    font-size: 1.2em;
+  text-align: center;
+  margin: 8px 0;
+  font-size: 1.2em;
+  flex-shrink: 0;
+}
+
+#container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#chatWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#chatForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0 8px 8px;
 }
 
 #chat {
-    width: 100%;
-    max-width: 630px;
-    height: 400px;
-    margin: 0 auto;
-    background-color: black;
-    border: 1px solid rgba(80,80,80,1);
-    color: #0fba00;
-    font-family: monospace;
-    font-size: 14px;
-    padding: 5px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 630px;
+  margin: 0 auto;
+  background-color: black;
+  border: 1px solid rgba(80,80,80,1);
+  color: #0fba00;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #chat .remote {
-    color: #00bf00;
+  color: #00bf00;
 }
 
 #chat .self {
-    color: #40fe55;
+  color: #40fe55;
 }
 
 #chat .status {
-    color: #ba0f00;
-}
-
-#chatInput {
-    width: 100%;
-    max-width: 618px;
-    margin: 20px auto;
-    padding: 5px;
-    display: block;
-    color: #0fba00;
-    font-family: monospace;
-    font-size: 14px;
-    background-color: black;
-    border: 0;
-    border-top: 1px solid gray;
+  color: #ba0f00;
 }
 
 #routes {
-    width: 100%;
-    max-width: 630px;
-    height: 70px;
-    margin: 0 auto;
-    background-color: black;
-    border: 1px solid rgba(80,80,80,1);
-    color: #0fba00;
-    font-family: monospace;
-    font-size: 14px;
-    padding: 5px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    white-space: pre;
+  width: 100%;
+  max-width: 630px;
+  height: 70px;
+  flex-shrink: 0;
+  margin: 4px auto 0;
+  background-color: black;
+  border: 1px solid rgba(80,80,80,1);
+  color: #0fba00;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  white-space: pre;
+}
+
+#chatInput {
+  width: 100%;
+  max-width: 630px;
+  flex-shrink: 0;
+  margin: 4px auto 0;
+  padding: 8px 5px;
+  display: block;
+  color: #0fba00;
+  font-family: monospace;
+  font-size: 16px; /* 16px prevents iOS auto-zoom on focus */
+  background-color: black;
+  border: 0;
+  border-top: 1px solid gray;
 }
