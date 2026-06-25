@@ -4,9 +4,7 @@
 #include <ArduinoJson.h>
 #include <list>
 
-// Capacity calculated with https://arduinojson.org/v6/assistant/ to match max msg size of 233
-const size_t capacity = JSON_OBJECT_SIZE(8) + 512;
-DynamicJsonDocument doc(capacity);
+JsonDocument doc;
 
 // FIXME: assumes messages don't have newlines
 
