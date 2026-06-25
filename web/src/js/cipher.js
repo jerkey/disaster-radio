@@ -1,5 +1,6 @@
 
-import nacl from 'tweetnacl';
+import nacl from 'tweetnacl'
+import { Buffer } from 'buffer'
 
 
 function serializeKeys(myKeys) {
