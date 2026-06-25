@@ -59,7 +59,7 @@ export default class Chat extends Component {
           {messages}
         </div>
         <div id="routes">
-          <div><u>Active Nodes | Hops | Metric </u></div>
+          <div class="routes-header">{routes.length} {routes.length === 1 ? 'node' : 'nodes'} nearby</div>
           {routes}
         </div>
         <input id="chatInput" type="text" name="msg" placeholder="Enter your name or alias" autofocus />

@@ -92,7 +92,6 @@ h1 {
 #routes {
   width: 100%;
   max-width: 630px;
-  height: 70px;
   flex-shrink: 0;
   margin: 4px auto 0;
   background-color: black;
@@ -101,9 +100,39 @@ h1 {
   font-family: monospace;
   font-size: 14px;
   padding: 5px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
-  white-space: pre;
+}
+
+.routes-header {
+  color: rgba(80,80,80,1);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+}
+
+.route-entry {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 1px 0;
+}
+
+.route-mac {
+  flex: 1;
+  color: #0fba00;
+}
+
+.route-signal {
+  color: #40fe55;
+  letter-spacing: -2px;
+}
+
+.route-hops {
+  color: rgba(120,120,120,1);
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 #chatInput {
