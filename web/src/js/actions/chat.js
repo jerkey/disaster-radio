@@ -16,11 +16,11 @@ var self = {
   showRoutes: function(data) {
     var length = data.length
     var routeTable = []
-    for(var i = 0; i < length * (1 / 16); i++) {
+    for(var i = 0; i < Math.floor(length / 12); i++) {
       routeTable[i] = {
-        mac: data.slice(i * 16, (i * 16) + 12),
-        hops: data.slice((i * 16) + 12, (i * 16) + 14),
-        metric: data.slice((i * 16) + 14, (i * 16) + 16),
+        mac: data.slice(i * 12, (i * 12) + 8),
+        hops: data.slice((i * 12) + 8, (i * 12) + 10),
+        metric: data.slice((i * 12) + 10, (i * 12) + 12),
       }
     }
     app.changeState({ chat: { routes: routeTable } })

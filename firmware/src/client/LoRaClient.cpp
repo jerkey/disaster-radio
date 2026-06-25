@@ -6,6 +6,34 @@ bool LoRaClient::init()
     return true;
 }
 
+void LoRaClient::broadcastRoutes()
+{
+    int numRoutes = LL2->getRouteEntry();
+    if (numRoutes <= 0) return;
+
+    // message: 2-byte fixed ID + "r|" + 6 bytes per route entry
+    // 6 bytes per entry: 4-byte destination address + 1-byte distance + 1-byte metric
+    struct Datagram datagram = {0};
+    datagram.type = 'r';
+    uint8_t *msg = datagram.message;
+    msg[0] = 0x0f;
+    msg[1] = 0x0f;
+    msg[2] = 'r';
+    msg[3] = '|';
+    int offset = 4;
+
+    for (int i = 0; i < numRoutes && offset + 6 <= (int)MESSAGE_LENGTH; i++)
+    {
+        memcpy(msg + offset, LL2->_routeTable[i].destination, ADDR_LENGTH);
+        offset += ADDR_LENGTH;
+        msg[offset++] = LL2->_routeTable[i].distance;
+        msg[offset++] = LL2->_routeTable[i].metric;
+    }
+
+    memcpy(datagram.destination, BROADCAST, ADDR_LENGTH);
+    server->transmit(this, datagram, offset + DATAGRAM_HEADER);
+}
+
 void LoRaClient::loop()
 {
     LL2->daemon();
@@ -13,6 +41,13 @@ void LoRaClient::loop()
     if (packet.totalLength > HEADER_LENGTH)
     {
         server->transmit(this, packet.datagram, packet.totalLength - HEADER_LENGTH);
+    }
+
+    unsigned long now = millis();
+    if (now - _lastRouteBroadcast >= 10000)
+    {
+        _lastRouteBroadcast = now;
+        broadcastRoutes();
     }
 }
 
