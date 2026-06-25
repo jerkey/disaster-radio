@@ -115,6 +115,19 @@
 #define LORA2_CS 25
 #endif
 
+#ifdef TBEAM_SUPREME
+// LilyGo T-Beam Supreme (ESP32-S3 + SX1262)
+// https://github.com/Xinyuan-LilyGO/LilyGo-LoRa-Series/blob/master/docs/en/t_beam_supreme/t_beam_supreme_hw.md
+#define LORA_SCK 12
+#define LORA_MISO 13
+#define LORA_MOSI 11
+#define LORA_CS 10
+#define LORA_RST 5
+#define LORA_IRQ 1
+#define LORA_BUSY 4
+#define GPS_SERIAL 9600, SERIAL_8N1, GPIO_NUM_9, GPIO_NUM_8
+#endif
+
 #ifdef ESP32_V3
 
 #define LORA_IRQ 22

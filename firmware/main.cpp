@@ -84,7 +84,11 @@ SX1276 lora = new Module(LORA_CS, LORA_IRQ, LORA_RST, RADIOLIB_NC);
 #endif
 
 #ifdef RL_SX1262
+  #ifdef LORA_BUSY
+SX1262 lora = new Module(LORA_CS, LORA_IRQ, LORA_RST, LORA_BUSY);
+  #else
 SX1262 lora = new Module(LORA_CS, LORA_IRQ, LORA_RST, RADIOLIB_NC);
+  #endif
   #ifdef DUAL_LORA
   SX1262 lora2 = new Module(LORA2_CS, LORA2_IRQ, LORA2_RST, RADIOLIB_NC);
   #endif
