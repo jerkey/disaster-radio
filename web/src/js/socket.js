@@ -11,6 +11,7 @@ export default function Socket(uriPath, opts) {
   this._listeners = []
   this._sentCallbacks = {}
   this.curId = 0
+  this.attempt = 0
 
   this._id = function() {
     var b = Buffer.alloc(2)
@@ -105,11 +106,14 @@ export default function Socket(uriPath, opts) {
 
   this.reconnect = function() {
     this.attempt++
-    var delay = Math.floor(Math.pow(2, this.attempt) * 1000)
+    var delay = Math.min(Math.floor(Math.pow(2, this.attempt) * 1000), 10000)
     setTimeout(this.connect.bind(this), delay)
   }
 
   this.send = function(namespace, msg, cb) {
+    if (!this.connected) {
+      return cb(new Error("Not connected"))
+    }
     var msgID = this._id()
     msg = Buffer.concat([msgID, Buffer.from(namespace + '|' + msg, 'utf8')])
     this.socket.send(msg)

@@ -34,7 +34,10 @@ export default class Chat extends Component {
     e.preventDefault()
     var inp = document.getElementById('chatInput')
     app.actions.chat.sendMessage(inp.value, function(err) {
-      if(err) return
+      if(err) {
+        inp.placeholder = err.message
+        return
+      }
       inp.value = ''
       inp.placeholder = ''
     })
