@@ -5,9 +5,6 @@ import cipher from './cipher.js'
 import actions from './actions/index.js'
 import Chat from './components/chat.jsx'
 
-// Make app a browser global accessible throughout all modules
-window.app = {}
-
 function renderAll() {
   var container = document.getElementById('container')
   var replace = container.children.length ? container.children[0] : undefined
