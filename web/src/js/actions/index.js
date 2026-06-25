@@ -1,6 +1,3 @@
+import chat from './chat.js'
 
-module.exports = {
-  
-  chat: require('./chat')
-
-}
+export default { chat }
