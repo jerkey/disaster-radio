@@ -128,7 +128,7 @@ void setupWiFi()
   sprintf(nodeAddress, "%02x%02x%02x%02x", mac[2], mac[3], mac[4], mac[5]);
 
 #ifdef WIFI_SSID
-  Serial.printf(" --> Connecting to WiFi \"%s\"\n", WIFI_SSID);
+  Serial.printf(" --> Connecting to WiFi \"%s\"\r\n", WIFI_SSID);
   for (int i = 0; i < WIFI_POLL_TRIES && WiFi.status() != WL_CONNECTED; i++)
   {
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -294,7 +294,7 @@ public:
   {
     char data[128] = {0};
     int msgLen = 0;
-    Serial.printf("WelcomeMessage username: >%s<\n", username.c_str());
+    Serial.printf("WelcomeMessage username: >%s<\r\n", username.c_str());
     if (username.isEmpty())
     {
       msgLen = sprintf(data, "00c|Welcome to DISASTER RADIO ");
@@ -585,7 +585,7 @@ void loop()
     {
       clients = new_clients;
       routes = new_routes;
-      Serial.printf("--> clients=%d routes=%d\n", clients, routes);
+      Serial.printf("--> clients=%d routes=%d\r\n", clients, routes);
       drawStatusBar();
     }
   }

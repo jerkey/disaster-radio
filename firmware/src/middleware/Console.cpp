@@ -472,7 +472,7 @@ void Console::printBanner()
   printf("Local address of your node is ");
   memcpy(request.destination, BROADCAST, ADDR_LENGTH);
   request.type = 'i';
-  msgLen = sprintf((char *)request.message, "addr");
+  msgLen = sprintf((char *)request.message, "Console->addr");
   server->transmit(this, request, msgLen + DATAGRAM_HEADER);
   printf("\r\n");
   printf("Type '/join NICKNAME' to join the chat, or '/help' for more commands.\r\n");
