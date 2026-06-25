@@ -19,6 +19,9 @@ public:
 
 private:
     LL2Class *LL2;
+    unsigned long _lastRouteBroadcast = 0;
+
+    void broadcastRoutes();
 };
 
 #endif
