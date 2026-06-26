@@ -75,6 +75,7 @@ export default class Chat extends Component {
           <input id="chatInput" type="text" name="msg" placeholder="Enter your name or alias" autofocus onkeydown={this.handleKey} />
           <button type="submit" id="chatSend">&#x2191;</button>
         </div>
+        <div id="buildInfo">build: {__GIT_HASH__}</div>
       </form>
     </div>
   }

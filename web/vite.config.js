@@ -1,22 +1,38 @@
 import { defineConfig } from 'vite'
 import { rename, readFile, writeFile } from 'fs/promises'
 import { resolve } from 'path'
+import { execSync } from 'child_process'
+
+const gitHash = (() => {
+  try {
+    return execSync('git describe --tags --always --dirty', { encoding: 'utf8' }).trim()
+  } catch {
+    return 'unknown'
+  }
+})()
 
 // Rename index.html -> index.htm and fix script tag for ESP32 compatibility.
 // The IIFE output format is a classic script but Vite still injects type="module",
 // which breaks captive portal browsers. Strip it and the crossorigin attribute.
+// Also append ?v=<git-hash> for cache-busting across firmware updates.
 const espCompatPlugin = {
   name: 'esp-compat',
   closeBundle: async () => {
     const htmlPath = resolve(__dirname, 'static/index.html')
     let html = await readFile(htmlPath, 'utf8')
-    html = html.replace(/ type="module"/g, '').replace(/ crossorigin/g, '')
+    html = html
+      .replace(/ type="module"/g, '')
+      .replace(/ crossorigin/g, '')
+      .replace(/(src="[^"]+bundle\.js)(")/g, `$1?v=${gitHash}$2`)
     await writeFile(htmlPath, html)
     await rename(htmlPath, resolve(__dirname, 'static/index.htm'))
   }
 }
 
 export default defineConfig({
+  define: {
+    __GIT_HASH__: JSON.stringify(gitHash),
+  },
   test: {
     environment: 'jsdom',
     globals: true,

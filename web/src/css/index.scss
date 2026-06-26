@@ -135,6 +135,14 @@ h1 {
   white-space: nowrap;
 }
 
+#buildInfo {
+  text-align: center;
+  font-family: monospace;
+  font-size: 10px;
+  color: #444;
+  padding: 2px 0 4px;
+}
+
 #chatInputRow {
   width: 100%;
   max-width: 630px;
