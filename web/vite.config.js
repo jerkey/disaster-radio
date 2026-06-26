@@ -17,6 +17,10 @@ const espCompatPlugin = {
 }
 
 export default defineConfig({
+  test: {
+    environment: 'jsdom',
+    globals: true,
+  },
   plugins: [espCompatPlugin],
   esbuild: {
     jsxFactory: 'h',

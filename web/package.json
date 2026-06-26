@@ -5,7 +5,9 @@
     "dev": "concurrently \"node bin/server.js\" \"vite\"",
     "build": "vite build",
     "start": "node bin/server.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "ecstatic": "^4.1.4",
@@ -19,11 +21,13 @@
     "byline": "^5.0.0",
     "colors": "^1.1.2",
     "concurrently": "^8.0.0",
+    "jsdom": "^29.1.1",
     "preact": "^8.2.1",
     "purecss": "^1.0.0",
     "sass": "^1.69.0",
     "tweetnacl": "^1.0.0",
-    "vite": "^5.0.0"
+    "vite": "^5.0.0",
+    "vitest": "^4.1.9"
   },
   "license": "AGPL-3.0"
 }
