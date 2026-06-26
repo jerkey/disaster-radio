@@ -28,7 +28,7 @@
     "purecss": "^1.0.0",
     "sass": "^1.69.0",
     "tweetnacl": "^1.0.0",
-    "vite": "^5.0.0",
+    "vite": "^6.0.0",
     "vitest": "^4.1.9"
   },
   "license": "AGPL-3.0"
