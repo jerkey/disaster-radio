@@ -18,3 +18,4 @@ firmware/platformio.ini
 .pio
 .vscode
 secrets.h
+.venv
