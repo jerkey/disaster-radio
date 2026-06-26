@@ -19,3 +19,10 @@ firmware/platformio.ini
 .vscode
 secrets.h
 .venv
+
+# test artifacts
+last-run.json
+web/test-results/
+web/playwright-report/
+web/blob-report/
+web/.vitest-cache/
