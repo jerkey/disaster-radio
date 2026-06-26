@@ -135,17 +135,46 @@ h1 {
   white-space: nowrap;
 }
 
-#chatInput {
+#chatInputRow {
   width: 100%;
   max-width: 630px;
   flex-shrink: 0;
   margin: 4px auto 0;
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid gray;
+}
+
+#chatInput {
+  flex: 1;
   padding: 8px 5px;
-  display: block;
   color: #0fba00;
   font-family: monospace;
   font-size: 16px; /* 16px prevents iOS auto-zoom on focus */
   background-color: black;
   border: 0;
-  border-top: 1px solid gray;
+  outline: none;
+}
+
+#chatSend {
+  flex-shrink: 0;
+  padding: 0 10px;
+  background-color: black;
+  color: #0fba00;
+  font-family: monospace;
+  font-size: 18px;
+  border: 0;
+  border-left: 1px solid gray;
+  cursor: pointer;
+  line-height: 1;
+
+  &:hover {
+    background-color: #0fba00;
+    color: black;
+  }
+
+  &:active {
+    background-color: #40fe55;
+    color: black;
+  }
 }

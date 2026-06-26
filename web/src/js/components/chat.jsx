@@ -7,6 +7,8 @@ export default class Chat extends Component {
   constructor(props) {
     super(props)
     this.setState({ messages: [], routes: [] })
+    this.send = this.send.bind(this)
+    this.handleKey = this.handleKey.bind(this)
     app.socket.addListener('c', this.receive)
     app.socket.addListener('r', this.receiveRoutes)
   }
@@ -69,8 +71,10 @@ export default class Chat extends Component {
           <div class="routes-header">{routes.length} {routes.length === 1 ? 'node' : 'nodes'} nearby</div>
           {routes}
         </div>
-        <input id="chatInput" type="text" name="msg" placeholder="Enter your name or alias" autofocus onkeydown={this.handleKey} />
-        <button type="submit">Send</button>
+        <div id="chatInputRow">
+          <input id="chatInput" type="text" name="msg" placeholder="Enter your name or alias" autofocus onkeydown={this.handleKey} />
+          <button type="submit" id="chatSend">&#x2191;</button>
+        </div>
       </form>
     </div>
   }
