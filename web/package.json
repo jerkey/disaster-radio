@@ -7,7 +7,8 @@
     "start": "node bin/server.js",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "ecstatic": "^4.1.4",
@@ -16,6 +17,7 @@
     "ws": "^3.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "ashnazg": "0.0.5",
     "buffer": "^6.0.3",
     "byline": "^5.0.0",
