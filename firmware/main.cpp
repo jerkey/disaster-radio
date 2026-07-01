@@ -5,6 +5,7 @@
 #include <SPI.h>
 
 #include <WiFi.h>
+#include <DNSServer.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <ESPmDNS.h>
@@ -79,6 +80,7 @@ SPIClass SPI_2(SPI);
 AsyncServer tcp_server(23);
 AsyncWebServer http_server(80);
 AsyncWebSocket ws_server("/ws");
+DNSServer dns_server;
 
 BleUartClient ble_client;
 
@@ -126,6 +128,9 @@ bool sdInitialized = false;
 bool spiffsInitialized = false;
 bool displayInitialized = false;
 bool loraInitialized = false;
+bool apMode = false;
+
+#define CAPTIVE_PORTAL_DNS_PORT 53
 
 void setup();   // we need these since we're main.cpp not main.ino
 void loop();    // we need these since we're main.cpp not main.ino
@@ -172,9 +177,14 @@ void setupWiFi()
     WiFi.setHostname(HOST_NAME);
     WiFi.softAP(ssid);
 
-    ip = WiFi.localIP();
+    apMode = true;
+    ip = WiFi.softAPIP();
     Serial.printf(" --> Started WiFi AP \"%s\", IP address: ", ssid);
     Serial.println(ip);
+
+    // captive portal: answer every DNS query with our own IP so that
+    // clients associating with the AP get redirected to the device
+    dns_server.start(CAPTIVE_PORTAL_DNS_PORT, "*", ip);
   }
 }
 
@@ -258,6 +268,15 @@ void setupHTTPSever()
   }
 
   http_server.onNotFound([](AsyncWebServerRequest *request) {
+    if (apMode)
+    {
+      // captive portal: send OS "sign in to network" probes back to the device's own page
+      Serial.println(" --> captive portal redirect");
+      AsyncWebServerResponse *response = request->beginResponse(302);
+      response->addHeader("Location", "http://" + ip.toString() + "/");
+      request->send(response);
+      return;
+    }
     Serial.println(" --> send(404) called");
     request->send(404);
   });
@@ -591,6 +610,10 @@ void setup()
 
 void loop()
 {
+  if (apMode)
+  {
+    dns_server.processNextRequest();
+  }
   radio->loop();
   if(loraInitialized){
     int new_clients = radio->clients.size() - internal_clients;
