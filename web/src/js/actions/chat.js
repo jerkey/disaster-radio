@@ -1,4 +1,5 @@
 import cipher from '../cipher.js'
+import soundboard from '../soundboard.js'
 
 var self = {
 
@@ -7,6 +8,7 @@ var self = {
     var msgs = app.state.chat.messages ? app.state.chat.messages.slice(0) : []
     msgs.push({ txt, type })
     app.changeState({ chat: { messages: msgs } })
+    soundboard.handleMessage(txt)
   },
 
   join: function(nick) {

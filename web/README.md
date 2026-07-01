@@ -51,6 +51,16 @@ An example message may appear as follows,
 
 Alternatively, you could write another Layer3 client as part of the disaster radio firmware and create your own Layer 4 message format. See more about our networking stack on our wiki, https://github.com/sudomesh/disaster-radio/wiki/Layered-Model.
 
+# Audio alerts
+
+The web app scans every chat message (sent and received) for trigger words and plays a short sound when it finds one. This is meant for terminals with speakers attached to the headphone jack: fun alerts come out the left channel and emergency alerts come out the right channel, so a mixer/soundsystem downstream can turn the fun channel up or down while leaving emergency alerts alone.
+
+Trigger words match whole words, case-insensitively, with or without a leading `#` (so both `fire` and `#fire` match, but `backfired` does not):
+* Fun (left channel): `duck`, `boom`, `wub`
+* Emergency (right channel): `emergency`, `fire`
+
+Sounds are currently synthesized with the Web Audio API — see `src/js/soundboard.js` — so no audio files are required. To use real sound files instead, replace the relevant synth function's body with buffer playback into the same destination node. The word list lives in `src/js/keywords.js`.
+
 # Testing
 
 ```
