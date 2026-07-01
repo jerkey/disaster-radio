@@ -67,7 +67,8 @@ void LoRaClient::receive(struct Datagram datagram, size_t len)
             LL2->getLocalAddress(localAddr);
             memcpy(response.destination, BROADCAST, ADDR_LENGTH);
             response.type = 'i';
-            msgLen = sprintf((char *)response.message, "%s", localAddr);
+            msgLen = snprintf((char *)response.message, MESSAGE_LENGTH, "%s", localAddr);
+            if (msgLen >= MESSAGE_LENGTH) msgLen = MESSAGE_LENGTH - 1; // snprintf returns would-be length, not written length
             server->transmit(this, response, msgLen + DATAGRAM_HEADER);
         }
         else if(memcmp(&datagram.message[0], "lora", 4) == 0){
@@ -75,7 +76,10 @@ void LoRaClient::receive(struct Datagram datagram, size_t len)
             LL2->getRoutingTable(r_table);
             memcpy(response.destination, BROADCAST, ADDR_LENGTH);
             response.type = 'i';
-            msgLen = sprintf((char *)response.message, "%s", r_table);
+            // r_table can exceed the 234-byte datagram message; snprintf truncates
+            // instead of overflowing response.message's stack buffer (was a crash bug)
+            msgLen = snprintf((char *)response.message, MESSAGE_LENGTH, "%s", r_table);
+            if (msgLen >= MESSAGE_LENGTH) msgLen = MESSAGE_LENGTH - 1; // snprintf returns would-be length, not written length
             server->transmit(this, response, msgLen + DATAGRAM_HEADER);
         }
         else if(memcmp(&datagram.message[0], "config", 5) == 0){
@@ -83,7 +87,10 @@ void LoRaClient::receive(struct Datagram datagram, size_t len)
             LL2->getCurrentConfig(config);
             memcpy(response.destination, BROADCAST, ADDR_LENGTH);
             response.type = 'i';
-            msgLen = sprintf((char *)response.message, "%s", config);
+            // config can be >= 234 bytes; snprintf truncates instead of overflowing
+            // response.message's stack buffer (was a crash bug)
+            msgLen = snprintf((char *)response.message, MESSAGE_LENGTH, "%s", config);
+            if (msgLen >= MESSAGE_LENGTH) msgLen = MESSAGE_LENGTH - 1; // snprintf returns would-be length, not written length
             server->transmit(this, response, msgLen + DATAGRAM_HEADER);
         }
         else if(memcmp(&datagram.message[0], "txpower", 7) == 0){

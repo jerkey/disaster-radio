@@ -51,6 +51,16 @@
 #include "DisasterHistory.h"
 #include "DisasterMiddleware.h"
 
+// Arduino's default loopTask stack is 8192 bytes. Console commands like
+// `/get config` and `/get lora` route Datagrams (passed by value) through a
+// deep call chain (Console -> LoRaClient -> DisasterServer -> ...), which
+// was overflowing the default stack and crashing with "Stack canary
+// watchpoint triggered (loopTask)". Raise it to give that chain headroom.
+size_t getArduinoLoopTaskStackSize(void)
+{
+  return 16384;
+}
+
 #define MDNS_NAME_PREFIX "disaster"
 #define HOST_NAME "disaster.radio"
 #define WIFI_AP_SSID_PREFIX "disaster.radio "
