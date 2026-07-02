@@ -20,6 +20,7 @@ function makeApp() {
 describe('chat actions', () => {
   let app
   let actions
+  let soundboard
 
   beforeEach(async () => {
     app = makeApp()
@@ -28,6 +29,7 @@ describe('chat actions', () => {
     const cipher = await import('../js/cipher.js')
     vi.spyOn(cipher.default, 'sign').mockReturnValue(new Uint8Array(64))
     actions = (await import('../js/actions/chat.js')).default
+    soundboard = (await import('../js/soundboard.js')).default
   })
 
   describe('showMessage', () => {
@@ -50,6 +52,20 @@ describe('chat actions', () => {
       actions.showMessage('second')
       expect(app.state.chat.messages).toHaveLength(2)
       expect(app.state.chat.messages[1].txt).toBe('second')
+    })
+
+    it('strips the "<nick> " prefix before scanning for trigger words', () => {
+      var spy = vi.spyOn(soundboard, 'handleMessage')
+      actions.showMessage('<#duck> hello everyone', 'remote')
+      expect(spy).toHaveBeenCalledWith('hello everyone')
+      spy.mockRestore()
+    })
+
+    it('does not scan status (join) messages for trigger words', () => {
+      var spy = vi.spyOn(soundboard, 'handleMessage')
+      actions.showMessage('~ #duck joined the channel', 'status')
+      expect(spy).not.toHaveBeenCalled()
+      spy.mockRestore()
     })
   })
 

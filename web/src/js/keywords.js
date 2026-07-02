@@ -7,28 +7,26 @@ function escapeRegExp(word) {
 }
 
 function buildRegex(words) {
-  return new RegExp('\\b(' + words.map(escapeRegExp).join('|') + ')\\b', 'gi')
+  return new RegExp('#(' + words.map(escapeRegExp).join('|') + ')\\b', 'gi')
 }
 
 const funRe = buildRegex(FUN_WORDS)
 const emergencyRe = buildRegex(EMERGENCY_WORDS)
 
 // Returns [{ word, category }] for every trigger word found in text.
-// Matches whole words only (so "backfire" doesn't match "fire"), and
-// ignores a leading "#" so both "fire" and "#fire" match.
+// Only matches hashtagged words (e.g. "#fire"), not bare "fire".
 export function findTriggers(text) {
   if (!text) return []
-  var stripped = text.replace(/#/g, '')
   var triggers = []
 
   funRe.lastIndex = 0
   var m
-  while ((m = funRe.exec(stripped))) {
+  while ((m = funRe.exec(text))) {
     triggers.push({ word: m[1].toLowerCase(), category: 'fun' })
   }
 
   emergencyRe.lastIndex = 0
-  while ((m = emergencyRe.exec(stripped))) {
+  while ((m = emergencyRe.exec(text))) {
     triggers.push({ word: m[1].toLowerCase(), category: 'emergency' })
   }
 

@@ -8,7 +8,12 @@ var self = {
     var msgs = app.state.chat.messages ? app.state.chat.messages.slice(0) : []
     msgs.push({ txt, type })
     app.changeState({ chat: { messages: msgs } })
-    soundboard.handleMessage(txt)
+    // Skip the "<nick> " prefix so a nickname like "#duck" doesn't
+    // re-trigger the duck sound on every message that nick sends.
+    // Status messages (e.g. "~ nick joined the channel") aren't scanned at all.
+    if(type !== 'status') {
+      soundboard.handleMessage(txt.replace(/^<[^>]*>\s?/, ''))
+    }
   },
 
   join: function(nick) {

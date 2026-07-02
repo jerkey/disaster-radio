@@ -55,7 +55,7 @@ Alternatively, you could write another Layer3 client as part of the disaster rad
 
 The web app scans every chat message (sent and received) for trigger words and plays a short sound when it finds one. This is meant for terminals with speakers attached to the headphone jack: fun alerts come out the left channel and emergency alerts come out the right channel, so a mixer/soundsystem downstream can turn the fun channel up or down while leaving emergency alerts alone.
 
-Trigger words match whole words, case-insensitively, with or without a leading `#` (so both `fire` and `#fire` match, but `backfired` does not):
+Trigger words only match when hashtagged, case-insensitively (so `#fire` triggers it, but bare `fire` does not):
 * Fun (left channel): `duck`, `boom`, `wub`
 * Emergency (right channel): `emergency`, `fire`
 
